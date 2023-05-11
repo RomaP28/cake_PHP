@@ -6,25 +6,15 @@ use App\Controller\AppController;
 
 class PostsController extends AppController
 {
-//    public function initialize(): void
-//    {
-//        $this->loadComponent('Blog');
-//
-//    }
-    private $posts = [
-        ['id' => 1,
-            'title' => 'First Post',
-            'body' => 'This is my First Post',
-        ],
-        ['id' => 2,
-            'title' => 'Second Post',
-            'body' => 'This is my second Post',
-        ],
-        ['id' => 3,
-            'title' => 'Third Post',
-            'body' => 'This is my third Post',
-        ]
-    ];
+
+    private $posts;
+
+    public function initialize(): void
+    {
+        $this->loadComponent('Blog');
+        $this->posts = $this->Blog->getPosts();
+
+    }
 
     public function index()
     {
@@ -40,7 +30,8 @@ class PostsController extends AppController
     }
     public function create()
     {
-        die('Creating post');
+//        die('Creating post');
+        $this->set('posts', $this->posts);
     }
 
     public function view($id)
@@ -48,10 +39,25 @@ class PostsController extends AppController
         $post = [
             'id' => $id,
             'title' => $id . ' post',
-            'body' => 'This is my ' . $id . ' post'
+            'body' => 'This is my ' . $id . ' post',
+            'image' => 'https://www.industrialempathy.com/img/remote/ZiClJf-1920w.jpg'
         ];
+
+        $languages = [
+            'Languages' => [
+                'English' => [
+                    'American',
+                    'Canadian',
+                    'British'
+                ],
+                'Spanish',
+                'German'
+            ]
+        ];
+
         $this->set('posts', $this->posts);
         $this->set('post', $post);
+        $this->set('languages', $languages);
     }
 
     public function edit($id)
